@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Modul Akademi Crypto</title>
+  <style>
+    body {
+      background: hsl(273.4, 94.3%, 0%) no-repeat center center fixed;
+      background-size: cover;
+      color: white;
+      font-family: 'Arial', sans-serif;
+      padding: 20px;
+      text-align: center;
+    }
+    .hidden { display: none; }
+    .container {
+      max-width: 1200px;
+      margin: auto;
+    }
+    .header {
+      background: linear-gradient(135deg, hsl(258,100%,46%), hsl(273.4,100%,49.3%));
+      padding: 20px;
+      background-size: cover;
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+    .header h1 {
+      font-size: 2em;
+      font-weight: 900;
+      margin: 0;
+    }
+    .menu {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+      padding: 10px;
+      scroll-behavior: smooth;
+    }
+    .menu::-webkit-scrollbar {
+      display: none;
+    }
+    .menu button {
+      flex: 0 0 auto;
+      padding: 12px 18px;
+      font-size: 1em;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      transition: 0.3s;
+    }
+    .menu button.active, .menu button:hover {
+      background: hsl(268.6,100%,39.6%);
+      transform: scale(1.1);
+    }
+    .course {
+      position: relative;
+      background: #222;
+      margin: 15px 0;
+      border-radius: 8px;
+      overflow: hidden;
+      transition: 0.3s;
+      cursor: pointer;
+    }
+
+    @media (min-width: 768px) {
+  .menu {
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    overflow-x: visible;
+  }
+
+  #courses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 20px 0;
+  }
+
+  .course img {
+    height: 200px;
+    object-fit: cover;
+  }
+
+  .header h1 {
+    font-size: 2.5em;
+  }
+
+  .section h2 {
+    font-size: 1.8em;
+    margin-top: 30px;
+  }
+
+  body {
+    background: linear-gradient(135deg, #000000, #000000); /* lebih nyaman dilihat */
+  }
+}
+
+    .course img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+    .course .overlay {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      background: rgba(0, 0, 0, 0.7);
+      padding: 10px;
+      text-align: left;
+    }
+    .course .overlay h3 {
+      margin: 0;
+      font-size: 1.2em;
+    }
+    .course .overlay p {
+      margin: 5px 0 0;
+      font-size: 0.9em;
+      color: #ccc;
+    }
+.auth-box {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+  max-width: 350px;
+  margin: 100px auto;
+  backdrop-filter: blur(10px);
+  animation: fadeIn 1s ease;
+}
+.auth-box h2 {
+  margin-bottom: 20px;
+  font-size: 1.5em;
+  color: white;
+}
+.auth-box input {
+  padding: 12px;
+  font-size: 1em;
+  border-radius: 8px;
+  border: none;
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.course {
+    position: relative;
+    overflow: hidden;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+  }
+
+  .course img {
+    width: 100%;
+    height: auto;
+    display: block;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+
+  .course:hover img {
+    transform: scale(1.05);
+    filter: brightness(80%);
+  }
+
+  .course .overlay {
+    position: absolute;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    width: 100%;
+    padding: 10px;
+    transition: background 0.3s ease;
+  }
+
+  .course:hover .overlay {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  .course .overlay p {
+    margin: 0;
+    font-size: 12px;
+    opacity: 0.8;
+  }
+
+  #courses .course:only-child {
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+
+  .course .overlay h3 {
+    margin: 5px 0 0;
+    font-size: 16px;
+  }
+.auth-box button {
+  padding: 12px 20px;
+  font-size: 1em;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(135deg, hsl(258,100%,46%), hsl(273.4,100%,49.3%));
+  color: white;
+  cursor: pointer;
+  width: 100%;
+  transition: transform 0.3s ease;
+}
+.auth-box button:hover {
+  transform: scale(1.05);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+  </style>
+</head>
+<body>
+  <link rel="manifest" href="manifest.json" />
+<meta name="theme-color" content="#4B0082" />
+  <!-- Login Box -->
+  <div class="auth-box" id="authBox">
+    <h2>Masukkan Kode Akses</h2>
+    <input type="password" id="accessCode" placeholder="Kode rahasia..." />
+    <br>
+    <button onclick="validateCode()">Masuk</button>
+  </div>
+
+  <!-- Website Content -->
+  <div class="container hidden" id="mainContent">
+    <div class="header">
+      <h1>APLIKASI AKADEMI CRYPTO</h1>
+    </div>
+    <div class="menu">
+      <button class="active" onclick="showCategory('all')">∀</button>
+      <button onclick="showCategory('investing')">CRYPTO INVESTING</button>
+      <button onclick="showCategory('trading')">CRYPTO TRADING</button>
+      <button onclick="showCategory('blockchain')">CRYPTO BLOCKCHAIN</button>
+      <button onclick="showCategory('sekolah')">KULIAH EKONOMI</button>
+      <button onclick="showCategory('liveclass')">LIVECLASS</button>
+      <button onclick="showCategory('margincall')">MARGIN CALL (PRIVAT)</button>
+      <button onclick="showCategory('ebook')">EBOOK AKADEMI CRYPTO</button>
+      <button onclick="showCategory('thevoice')">THE VOICE</button>
+      <button onclick="showCategory('research')">COIPICK</button>
+      <button onclick="showCategory('miror')">JOIN MIROR AC TERMURAH</button>
+    </div>
+    
+
+    <div class="section">
+      <h2 id="section-title">SEMUA MODUL</h2>
+      <div id="courses"></div>
+    </div>
+  </div>
+
+  <script>
+    const correctCode = "BESOK SENIN"; // Ubah ini jika ingin ganti kode akses
+
+window.onload = function () {
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+  const savedCode = localStorage.getItem("savedCode");
+
+  // Cek apakah user masih login dan kode belum berubah
+  if (isLoggedIn === "true" && savedCode === correctCode) {
+    document.getElementById("authBox").style.display = "none";
+    document.getElementById("mainContent").classList.remove("hidden");
+    showCategory('all');
+  } else {
+    // Logout otomatis jika kode berubah
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("savedCode");
+  }
+};
+
+function validateCode() {
+  const input = document.getElementById("accessCode").value;
+  if (input === correctCode) {
+    // Simpan login dan kode ke localStorage
+    localStorage.setItem("isLoggedIn", "true");
+    localStorage.setItem("savedCode", correctCode);
+
+    // Tampilkan konten
+    document.getElementById("authBox").style.display = "none";
+    document.getElementById("mainContent").classList.remove("hidden");
+    showCategory('all');
+  } else {
+    alert("Kode salah!");
+  }
+}
+    const data = {
+      investing: [
+  { 
+    title: "Crypto Investing", 
+    image: "crypto-investing.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkR5FlKi_LUpeByO_XYUg2HG" 
+  },
+  { 
+    title: "Crypto Investing Strategy", 
+    image: "crypto-investing-strategy.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkS4_pIcxNHO-xTHYJroSVmq" 
+  },
+  { 
+    title: "Crypto Investing Principles", 
+    image: "sd.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkRYwMEgIbFQgRvUAxT29H2C" 
+  },
+  { 
+    title: "Crypto Investing Tools", 
+    image: "crypto-investing-tools.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQqOhQqJzgNOfABfqDDkSnu" 
+  },
+  { 
+    title: "Crypto Investing Guide", 
+    image: "crypto-investing-guide.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQSQv_b0lmx-MpAehS_i943" 
+  },
+  { 
+    title: "Crypto Investing Alpha", 
+    image: "crypto-investing-alpha.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ0AmpJ6ZQAONsFC9P4ICPo" 
+  },
+  { 
+    title: "Crypto Self Custody", 
+    image: "crypto-self-custody.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ2ZvwjsNJqzHxPMzOHsqeY" 
+  }
+],
+
+blockchain: [
+  { 
+    title: "Smart Contract Development", 
+    image: "smart-contract-development.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQoSi4_cEe8sWlBdGM5BOJx" 
+  },
+  { 
+    title: "Blockchain Interoperability", 
+    image: "blockchain-interoperability.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSvkLu0dbp4IeId43vvNahl" 
+  },
+  { 
+    title: "Smart Contract Security", 
+    image: "ss9.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ9BATsPJRWyNRu5acx_8hl" 
+  },
+  { 
+    title: "Cryptocurrency Security", 
+    image: "cryptocurrency-security.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkT5CyMokqqvnfbz7cCANEIf" 
+  },
+  { 
+    title: "Crypto Self Custody", 
+    image: "crypto-self-custody.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTgLp87pWVbSdF-qh1pNrZc" 
+  },
+  { 
+    title: "Cryptocurrency Fundamentals", 
+    image: "cryptocurrency-fundamentals.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSX4m6Ai7I6-G-ZVwJ34Jbk" 
+  },
+  { 
+    title: "Monero Anonymity", 
+    image: "monero-anonymity.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQIJ4LzQgSxQEpR6xNMPUt5" 
+  },
+  { 
+    title: "Ethereum Programmable Money", 
+    image: "ethereum-programmable-money.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkT56nVEJiQz7tRyoC6kE5Oq" 
+  },
+  { 
+    title: "Bitcoin Transaction in Depth", 
+    image: "bitcoin-transaction-in-depth.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTfrsBywgQoFOgTsxXVX5uX" 
+  },
+  { 
+    title: "Crypto Research", 
+    image: "crypto-research.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ9uaFae78dyUQIQCqBDuL0" 
+  },
+  { 
+    title: "Key, Wallets, & How They Work", 
+    image: "key-wallets-how-they-work.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkRI2Np0SHo8E4Pr2EuOBCHR" 
+  },
+  { 
+    title: "Digital Money And Double Spending", 
+    image: "digital-money-double-spending.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTyoODXGPPClW-b_jQkKE9X" 
+  },
+  { 
+    title: "Consensus Proof Of And Security Premises", 
+    image: "consensus-proof-security.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQbhfROXcOUNWKSg0Xtviik" 
+  },
+  { 
+    title: "Blockchain Trilemma", 
+    image: "blockchain-trilemma.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQn_UfP0iKtPn7noK1wX3RT" 
+  },
+  { 
+    title: "Bitcoin Anonymity", 
+    image: "bitcoin-anonymity.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkRMN8cT3ayvHW5QSktpcZY4" 
+  },
+  { 
+    title: "What is a Smart Contract", 
+    image: "what-is-a-smart-contract.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQX_hJaqiidqKyQ89GbbuCb" 
+  },
+  { 
+    title: "Type of Accounts", 
+    image: "type-of-accounts.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ2Wn9wTM-2KDfnIisgNfIo" 
+  },
+  { 
+    title: "UTXO Model vs Account Model", 
+    image: "utxo-vs-account-model.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkS-sRyPe6KWPYsuzzdRI-wf" 
+  },
+  { 
+    title: "Security Issues", 
+    image: "aap.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQe6TAVs9JSZA8MUablgI53" 
+  },
+  { 
+    title: "Layer 2 Rollups", 
+    image: "layer-2-rollups.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkT5XG1DvuE7gF4wO3rDEqWl" 
+  },
+  { 
+    title: "Tokens", 
+    image: "tokens.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQWYCkR7wKpE1Dd48V2DHff" 
+  },
+  { 
+    title: "Blockchain Oracles", 
+    image: "blockchain-oracles.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTzy3oLzGVsxOZEs83i5FdD" 
+  },
+  { 
+    title: "Cross-chain Technology", 
+    image: "cross-chain-technology.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTz1unLivD9WE2vVCi1iPqd" 
+  }
+],
+
+      sekolah: [
+        { title: "1. Pengantar Ilmu Ekonomi", image: "100.jpg", link: "https://youtu.be/r_YPjXZcQQY?si=St_RsdM_PhzLlPWG" },
+        { title: "2. Mekanisme Pasar", image: "200.jpg", link: "https://youtu.be/uXQq4lWNeiY?si=V7ZLFcY25lbhXQow" },
+        { title: "3. Perdagangan Internasional", image: "300.jpg", link: "https://youtu.be/hBBq0S2toJs?si=LyK6zbuI18Y_mlsn" },
+        { title: "4. Teori Biyaya Produksi", image: "400.jpg", link: "https://youtu.be/lShkQaDQeUM?si=zaC-AEP3p7wzZdyT" },
+      ],
+      trading: [
+  { 
+    title: "Crypto Spot Trading", 
+    image: "crypto-trading.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSW_Ln6qn8YlhFO1YpNxlgA" 
+  },
+  { 
+    title: "Kamus Pattern Crypto", 
+    image: "kamus-pattern-crypto.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQ3zJrpA2l_POSXmq4dZrTv" 
+  },
+  { 
+    title: "Crypto Technical Indicators", 
+    image: "crypto-technical-indicators.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTkQfZFKlN7LTuErnCDxGSk" 
+  },
+  { 
+    title: "Crypto Fibonacci Secret", 
+    image: "ww.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkR0YG-DjruO4JCXRqX49smy" 
+  },
+  { 
+    title: "Crypto Smart Money", 
+    image: "crypto-smart-money.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSjFvK-EsAxVEqIM0E7cEwx" 
+  },
+  { 
+    title: "Crypto Order Flow", 
+    image: "crypto-order-flow.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSLvSG3eOhFZSbg5NCJjHy4" 
+  },
+  { 
+    title: "Crypto Harmonic Trading", 
+    image: "crypto-harmonic-trading.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTA7R16GuLHJCclg8YDE-F5" 
+  },
+  { 
+    title: "Narrative Research", 
+    image: "narrative-research.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkRyIifhLD_aSoI8i667P-lt" 
+  },
+  { 
+    title: "Crypto Money Psychology", 
+    image: "crypto-money-psychology.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkTq1Y05AAKuJHjay2Ox5-G5" 
+  },
+  { 
+    title: "Strategi Trading Crypto Untuk Dapetin 100jt Pertama", 
+    image: "strategi-trading-100jt.jpg", 
+    link: "https://www.youtube.com/watch?v=oYYfuxkXc8E&list=PL1hlgGm52pkSs8IIOw_RbcvStT95THLmv&index=4" 
+  },
+  { 
+    title: "Crypto WyckOff Trading", 
+    image: "crypto-wyckoff-trading.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQJOkiNWJu8NtD40fUegcZe" 
+  },
+  { 
+    title: "Token Unlock Trading Strategy", 
+    image: "pp.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSLNB0rb543lwOgfpr33o-l" 
+  },
+  { 
+    title: "DEX Trading Tutorial", 
+    image: "dex-trading-tutorial.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSq5ArXxxCBo02EWes4Rawp" 
+  },
+  { 
+    title: "Cara Screning Altcoin Dari 0", 
+    image: "aa.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkQXePTmW6W_diad21w51z3Y" 
+  }
+],
+
+liveclass: [
+  { 
+    title: "The Art of Crypto Trading", 
+    image: "art-of-crypto-trading.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkSc7jlBxPbLCQz15nC7TF3A" 
+  },
+  { 
+    title: "Crypto Market Outlook 2025 (17-Desember-2024)", 
+    image: "market-outlook-2025.jpg", 
+    link: "https://youtu.be/CSEGkBTAFvI" 
+  },
+  { 
+    title: "US Election Market Outlook (3-November-2024)", 
+    image: "us-election-market.jpg", 
+    link: "https://www.youtube.com/watch?v=lR9sISGi-Mk" 
+  },
+  { 
+    title: "Preparing For Octobull (1-Oktober-2024)", 
+    image: "preparing-octobull.jpg", 
+    link: "https://youtu.be/oaK71Ar3fjE" 
+  },
+  { 
+    title: "Crypto Trading Psychology", 
+    image: "crypto-trading-psychology.jpg", 
+    link: "https://youtu.be/Sz9BJzwP_98" 
+  },
+  { 
+    title: "Mastering Altcoins", 
+    image: "mastering-altcoins.jpg", 
+    link: "https://youtu.be/9Yfdc8ALR5A" 
+  },
+  { 
+    title: "Masterclass Session 1 – Crypto Smart Money", 
+    image: "mas1.jpg", 
+    link: "https://youtu.be/eqwtVcW9rI4?si=g4Ox3Q2nQCeB4mrH" 
+  },
+  { 
+    title: "Masterclass Session 2 – Crypto Harmonic Trading", 
+    image: "mas.jpg", 
+    link: "https://youtu.be/IVpagLD5fXI?si=iuR6rtFIKsRh1yxx" 
+  },
+  { 
+    title: "Masterclass Session 3 – Crypto Order Flow", 
+    image: "flow.jpg", 
+    link: "https://youtu.be/LWd2d4O0YQY?si=I6AO5TzHrhm7JUP1" 
+  },
+  { 
+    title: "Kuliah Crypto", 
+    image: "kuliah-crypto.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkS4tAzW6rIx5yW8Pi4NZua-" 
+  },
+  { 
+    title: "Bonus: Sales Mastery", 
+    image: "sales-mastery.jpg", 
+    link: "https://www.youtube.com/playlist?list=PL1hlgGm52pkR_axjnn8ocScFYtTLDQp08" 
+  },
+  { 
+    title: "Big Crypto Thesis", 
+    image: "big.png", 
+    link: "https://youtu.be/nAvj4rgkhFU?si=aJoPPFkmRWXqMC0J" 
+  },
+  { 
+    title: "Akademi Crypto Grand Launching", 
+    image: "lau.png", 
+    link: "https://youtu.be/Vk2umj18kCw?si=W_pIct9DaheCS4-p" 
+  },
+  { 
+    title: "BTC to Alts Switching Timing", 
+    image: "btc.jpg", 
+    link: "https://youtu.be/NSDsnoD7L5c?si=c_I89sDQXIj7JEe4" 
+  },
+  { 
+    title: "Narratives for 2024 Bull Run", 
+    image: "nar.jpg", 
+    link: "https://youtu.be/D68XtnGuwVA?si=UzAe-LfU17cSMsiX" 
+  },
+  { 
+    title: "Strategi Jadi Miliarder Dari Crypto", 
+    image: "str.jpg", 
+    link: "https://youtu.be/zFz6tVbQaD0?si=VQflay_1E61CIZiH" 
+  },
+  { 
+    title: "Kopi Darat Akademi Crypto 9 September 2023", 
+    image: "kop.jpg", 
+    link: "https://youtu.be/F-Wu24Ppx8k?si=JhYM51kBr4bAWDVe" 
+  },
+  { 
+    title: "Cara Mencari Altcoin yang Minimal Akan Naik 10X", 
+    image: "10x.jpg", 
+    link: "" 
+  },
+  { 
+    title: "10X YOUR PORTFLIO THIS BULLRUN", 
+    image: "10xy.jpg", 
+    link: "https://youtu.be/xLHo4Bsc6GI?si=mGofXoazfWIRhqyD" 
+  },
+  { 
+    title: "Riding the Crypto Super Mega Cycle", 
+    image: "rid.jpg", 
+    link: "https://youtu.be/aObCLswItww?si=juIyko6h7p7Uutvl" 
+  },
+  { 
+    title: "Cara Menggandakan Portofolio di AI Supercycle", 
+    image: "ai.jpg", 
+    link: "https://youtu.be/qGz-Xvd1Ino?si=GzNXo3h6iQj6YXOy" 
+  },
+  { 
+    title: "2030 The Great Reset", 
+    image: "the.jpg", 
+    link: "https://youtu.be/Zpp4ja9DOFo?si=kSq-tRz--i-nV6e-" 
+  },
+  { 
+    title: "2025 Crypto Regulation", 
+    image: "reg.jpg", 
+    link: "https://youtu.be/WzXHL9cfSko?si=8YnocBpuPy1M3DnE" 
+  }
+],
+
+margincall: [
+  { 
+    title: "Margin Call - 6 July 2024", 
+    image: "margin-call-6july.jpg", 
+    link: "https://www.youtube.com/watch?v=ZDnIJunBB-A&feature=youtu.be" 
+  },
+  { 
+    title: "Margin Call - Soon!", 
+    image: "margin-call-6july.jpg", 
+    link: "#" 
+  },
+  { 
+    title: "Margin Call - Soon!", 
+    image: "margin-call-6july.jpg", 
+    link: "#" 
+  },
+  { 
+    title: "Margin Call - Soon!", 
+    image: "margin-call-6july.jpg", 
+    link: "#" 
+  }
+],
+
+ebook: [
+{ 
+    title: "Crypto Trading Guide", 
+    image: "gd.jpg", 
+    link: "https://drive.google.com/file/d/1acE6k2fKifSqi6hk_SCjVuktDCjep6aP/view?usp=drivesdk" 
+  },
+
+  { 
+    title: "Crypto Investing Principles", 
+    image: "pri.jpg", 
+    link: "https://drive.google.com/file/d/1acnJl-Lu-HR6jTZp-h3VsMkuTzxLCg-Y/view?usp=drivesdk" 
+  },
+
+  { 
+    title: "Crypto Smart Money", 
+    image: "smart.jpg", 
+    link: "https://drive.google.com/file/d/1cEwqBoLQzkxA_WAa0lgLW0STVuKOdBr0/view?usp=drivesdk" 
+  },
+
+ 
+  { 
+    title: "Mastering Altcoins", 
+    image: "masa.jpg", 
+    link: "https://drive.google.com/file/d/1BPYTgwq6QxD9Ojo-PHPIBmlHSmjT-Eph/view?usp=drivesdk" 
+  },
+
+  { 
+    title: "Crypto Trading Psychology", 
+    image: "sys.jpg", 
+    link: "https://drive.google.com/file/d/1ztF-QGPQdWPFw1jXVrgp0c8u3GN4v0hG/view?usp=sharing" 
+  },
+],
+
+      thevoice: [
+        { title: "The Crypto Millionire - Timothy Ronald", image: "t.jpg", link: "https://t.me/+5iTzMIS7hlFjZmQ1" }
+      ],
+
+      research: [
+       { title: "Kaito ($Kaito) 26 FEB 2025", image: "pdf1.jpg", link: "https://drive.google.com/file/d/1AhHmt9PiT8j-e1V58vvsVT1gZ-3ZCzLU/view" },
+       { title: "Crypto Trend Mapping", image: "pdf2.jpg", link: "https://drive.google.com/file/d/1v1ef6e8ZP6DYg-_vklRascWQDyuLPCtD/view?usp=drive_link" },
+       { title: "Blockchain Adoption Curve", image: "pdf3.jpg", link: "https://drive.google.com/file/d/1B1uTa8GX9SJif7mXhc673S6vo6W-UHvd/view?usp=drive_link"},
+      ],
+      miror: [
+       { title: "TRIAL 24 JAM", image: "CAV.png", link: ""},
+       { title: "75K (3 BULAN)", image: "CAV.png", link: "https://lynk.id/ebcdde/qOXd90r"},
+       { title: "98K (1 TAHUN)", image: "CAV.png", link: "https://lynk.id/ebcdde/437MJ2p" },
+       { title: "185K (LIFTIME)", image: "CAV.png", link: "https://lynk.id/ebcdde/Bb0k6vk"},
+      ],
+    };
+
+    data.all = [
+  ...data.investing,
+  ...data.trading,
+  ...data.blockchain,
+  ...data.sekolah,
+  ...data.liveclass,
+  ...data.margincall,
+  ...data.ebook,
+  ...data.thevoice,
+  ...data.research,
+  ...data.miror
+];
+
+
+    function showCategory(category) {
+  const sectionTitle = document.getElementById('section-title');
+  const coursesContainer = document.getElementById('courses');
+
+  const titleMap = {
+  all: '∀ FOR ALL AKADEMI CRYPTO',
+  trading: 'CRYPTO TRADING',
+  investing: 'CRYPTO INVESTING',
+  blockchain: 'CRYPTO BLOCKCHAIN',
+  sekolah: 'KULIAH EKONOMI',
+  liveclass: 'LIVECLASS',
+  margincall: 'MARGIN CALL (PRIVATE)',
+  ebook: 'ALL EBOOK AKADEMI CRYPTO',
+  thevoice: 'THE VOICE',
+  research: 'PDF RESEARCH',
+  miror: 'MIROR AC TERMURAH (RILTIME)'
+};
+
+
+  sectionTitle.textContent = titleMap[category] || category.toUpperCase();
+  coursesContainer.innerHTML = '';
+
+  data[category].forEach(item => {
+    coursesContainer.innerHTML += `
+      <div class='course' onclick="window.open('${item.link || '#'}', '_blank')">
+        <img src='images/${item.image}' alt='${item.title}' />
+        <div class='overlay'>
+          <p>${titleMap[category] || category.toUpperCase()}</p>
+          <h3>${item.title}</h3>
+        </div>
+      </div>
+    `;
+  });
+
+      document.querySelectorAll('.menu button').forEach(btn => btn.classList.remove('active'));
+      document.querySelector(`.menu button[onclick="showCategory('${category}')"]`).classList.add('active');
+    }
+  </script>
+  <script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('/service-worker.js')
+      .then(reg => console.log("Service Worker Registered"))
+      .catch(err => console.error("Service Worker Failed:", err));
+  }
+</script>
+<script src="data.js"></script>
+</body>
+</html>
