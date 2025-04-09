@@ -1,4 +1,4 @@
-const correctCode = "BESOK SENIN"; // Ubah ini jika ingin ganti kode akses
+const correctCode = "OKE"; // Ubah ini jika ingin ganti kode akses
 let allCourses = [];
 
 window.onload = function () {
