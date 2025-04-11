@@ -722,16 +722,18 @@
       
       <div class="menu-container">
         <div class="menu-scroll" id="menuScroll">
-          <button class="menu-btn active" onclick="showCategory('all')"><i class="fas fa-globe"></i> Semua</button>
-          <button class="menu-btn" onclick="showCategory('investing')"><i class="fas fa-chart-line"></i> Investing</button>
-          <button class="menu-btn" onclick="showCategory('trading')"><i class="fas fa-exchange-alt"></i> Trading</button>
-          <button class="menu-btn" onclick="showCategory('blockchain')"><i class="fas fa-link"></i> Blockchain</button>
-          <button class="menu-btn" onclick="showCategory('sekolah')"><i class="fas fa-graduation-cap"></i> Ekonomi</button>
-          <button class="menu-btn" onclick="showCategory('liveclass')"><i class="fas fa-video"></i> Liveclass</button>
-          <button class="menu-btn" onclick="showCategory('margincall')"><i class="fas fa-user-secret"></i> Privat</button>
-          <button class="menu-btn" onclick="showCategory('ebook')"><i class="fas fa-book"></i> Ebook</button>
-          <button class="menu-btn" onclick="showCategory('thenoise')"><i class="fas fa-headphones"></i> The Noise</button>
-          <button class="menu-btn" onclick="showCategory('soon')"><i class="fas fa-headphones"></i> Soon!</button>
+         <button class="menu-btn active" onclick="showCategory('all')"><i class="fas fa-globe"></i> SEMUA</button>
+         <button class="menu-btn" onclick="showCategory('investing')"><i class="fas fa-chart-line"></i> INVESTING</button>
+         <button class="menu-btn" onclick="showCategory('trading')"><i class="fas fa-exchange-alt"></i> TRADING</button>
+         <button class="menu-btn" onclick="showCategory('blockchain')"><i class="fas fa-link"></i> BLOCKCHAIN</button>
+         <button class="menu-btn" onclick="showCategory('sekolah')"><i class="fas fa-graduation-cap"></i> EKONOMI</button>
+         <button class="menu-btn" onclick="showCategory('liveclass')"><i class="fas fa-video"></i> LIVECLASS</button>
+         <button class="menu-btn" onclick="showCategory('margincall')"><i class="fas fa-user-secret"></i> PRIVAT</button>
+         <button class="menu-btn" onclick="showCategory('ebook')"><i class="fas fa-book"></i> EBOOK</button>
+         <button class="menu-btn" onclick="showCategory('thenoise')"><i class="fas fa-headphones"></i> THE NOISE</button>
+         <button class="menu-btn" onclick="showCategory('soon')"><i class="fas fa-hourglass-half"></i> SOON</button>
+
+
           
           
           
@@ -766,15 +768,15 @@
     <nav class="bottom-nav">
       <a href="#" class="nav-item active" data-target="modul-content">
         <i class="fas fa-book"></i>
-        <span>Modul</span>
+        <span>MODUL</span>
       </a>
       <a href="#" class="nav-item" data-target="research-content">
         <i class="fas fa-file-alt"></i>
-        <span>Research</span>
+        <span>RESEARCH</span>
       </a>
       <a href="#" class="nav-item" data-target="komunitas-content">
         <i class="fas fa-users"></i>
-        <span>Komunitas</span>
+        <span>KOMUNITAS</span>
       </a>
     </nav>
   </div>
@@ -859,7 +861,6 @@ data.miror.forEach(item => {
   communityCards.innerHTML += `
     <div class="community-card">
       <img src="images/${item.image}" alt="${item.title}" class="community-image">
-      <i class="fas fa-users"></i>
       <h3>${item.title}</h3>
       <p>${item.title.includes('TRIAL') ? 'Coba gratis selama 24 jam' : 'Akses penuh ke komunitas'}</p>
       <a href="${item.link}" class="community-link" target="_blank">Bergabung</a>
@@ -1530,7 +1531,7 @@ data.miror.forEach(item => {
         margincall: 'MARGIN CALL (PRIVATE)',
         ebook: 'EBOOK AKADEMI CRYPTO',
         thenoise: 'THE NOISE TIMOTHY RONALD',
-        soon: 'COMING SOON!s',
+        soon: 'COMING SOON',
         thevoice: 'THE VOICE',
         research: 'PDF RESEARCH',
         miror: 'MIROR AC TERMURAH (LIFETIME)'
