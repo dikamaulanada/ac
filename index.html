@@ -120,15 +120,19 @@
       color: rgba(255, 255, 255, 0.9);
     }
 
-    /* Tab Content Styles */
     .tab-content {
-      display: none;
-      animation: fadeIn 0.5s ease-out;
-    }
+  display: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
 
-    .tab-content.active {
-      display: block;
-    }
+.tab-content.active {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+
 
     /* Existing Styles with Adjustments */
     .header {
@@ -654,12 +658,132 @@
     }
 
     .research-image {
-  width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 10px;
-}
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
 
+    /* Modal Styles for Course Details */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.9);
+      z-index: 1000;
+      overflow-y: auto;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      margin: 5% auto;
+      padding: 30px;
+      border-radius: 15px;
+      max-width: 800px;
+      width: 90%;
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .close-modal:hover {
+      color: var(--primary);
+      transform: rotate(90deg);
+    }
+
+    .modal-header {
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .modal-header h2 {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      background: linear-gradient(to right, white, #e0e0ff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .modal-header .badge {
+      display: inline-block;
+      padding: 5px 10px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border-radius: 5px;
+      font-size: 0.8em;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .modal-body {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .modal-image {
+      width: 100%;
+      max-height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+    }
+
+    .modal-description {
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 20px;
+      flex-wrap: wrap;
+    }
+
+    .modal-button {
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .modal-button.primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+    }
+
+    .modal-button.secondary {
+      background: transparent;
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-button:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 15px rgba(102, 51, 204, 0.4);
+    }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
@@ -683,13 +807,12 @@
     }
 
     .community-image {
-  width: 100%;
-  height: 150px;
-  object-fit: cover;
-  border-radius: 8px;
-  margin-bottom: 12px;
-}
-
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
+    }
 
     @keyframes shake {
       0%, 100% { transform: translateX(0); }
@@ -732,11 +855,6 @@
          <button class="menu-btn" onclick="showCategory('ebook')"><i class="fas fa-book"></i> EBOOK</button>
          <button class="menu-btn" onclick="showCategory('thenoise')"><i class="fas fa-headphones"></i> THE NOISE</button>
          <button class="menu-btn" onclick="showCategory('soon')"><i class="fas fa-hourglass-half"></i> SOON</button>
-
-
-          
-          
-          
         </div>
       </div>
       
@@ -781,9 +899,35 @@
     </nav>
   </div>
 
+  <!-- Modal for Course Details -->
+  <div id="courseModal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal()">&times;</span>
+      <div class="modal-header">
+        <div class="badge" id="modalBadge">MODUL</div>
+        <h2 id="modalTitle">Judul Modul</h2>
+      </div>
+      <div class="modal-body">
+        <img id="modalImage" src="" alt="Course Image" class="modal-image">
+        <p class="modal-description">
+          Anda akan diarahkan ke konten pembelajaran ini. Pastikan Anda memiliki waktu yang cukup untuk mempelajari materi ini secara menyeluruh.
+        </p>
+        <div class="modal-actions">
+          <button class="modal-button primary" id="continueButton">
+            <i class="fas fa-play"></i> Lanjutkan ke Konten
+          </button>
+          <button class="modal-button secondary" onclick="closeModal()">
+            <i class="fas fa-times"></i> Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     const correctCode = "OKE"; // Ubah ini jika ingin ganti kode akses
     let allCourses = [];
+    let currentSelectedCourse = null;
 
     window.onload = function () {
       const isLoggedIn = localStorage.getItem("isLoggedIn");
@@ -833,41 +977,39 @@
     }
 
     function loadResearchContent() {
-  const researchGrid = document.getElementById('research-grid');
-  
-  // Clear existing content
-  researchGrid.innerHTML = '';
-  
-  // Add research items from your data
-  data.research.forEach(item => {
-  console.log(`Loading research item: ${item.title}, Image: ${item.image}`); // Debug log
-  researchGrid.innerHTML += `
-    <div class="research-card">
-      <img src="images/${item.image}" alt="${item.title}" class="research-image">
-      <h3>${item.title}</h3>
-      <p>Laporan penelitian terbaru tentang ${item.title.split(' ')[0]}</p>
-      <a href="${item.link}" class="research-link" target="_blank">Buka Research</a>
-    </div>
-  `;
-});
-
-}
+      const researchGrid = document.getElementById('research-grid');
+      
+      // Clear existing content
+      researchGrid.innerHTML = '';
+      
+      // Add research items from your data
+      data.research.forEach(item => {
+        console.log(`Loading research item: ${item.title}, Image: ${item.image}`);
+        researchGrid.innerHTML += `
+          <div class="research-card">
+            <img src="images/${item.image}" alt="${item.title}" class="research-image">
+            <h3>${item.title}</h3>
+            <p>Laporan penelitian terbaru tentang ${item.title.split(' ')[0]}</p>
+            <a href="${item.link}" class="research-link" target="_blank">Buka Research</a>
+          </div>
+        `;
+      });
+    }
 
     function loadCommunityContent() {
       const communityCards = document.getElementById('community-cards');
       
-       // Add community items from your data
-data.miror.forEach(item => {
-  communityCards.innerHTML += `
-    <div class="community-card">
-      <img src="images/${item.image}" alt="${item.title}" class="community-image">
-      <h3>${item.title}</h3>
-      <p>${item.title.includes('TRIAL') ? 'Coba gratis selama 24 jam' : 'Akses penuh ke komunitas'}</p>
-      <a href="${item.link}" class="community-link" target="_blank">Bergabung</a>
-    </div>
-  `;
-});
-
+      // Add community items from your data
+      data.miror.forEach(item => {
+        communityCards.innerHTML += `
+          <div class="community-card">
+            <img src="images/${item.image}" alt="${item.title}" class="community-image">
+            <h3>${item.title}</h3>
+            <p>${item.title.includes('TRIAL') ? 'Coba gratis selama 24 jam' : 'Akses penuh ke komunitas'}</p>
+            <a href="${item.link}" class="community-link" target="_blank">Bergabung</a>
+          </div>
+        `;
+      });
     }
 
     function setupScrollArrows() {
@@ -925,6 +1067,40 @@ data.miror.forEach(item => {
         setTimeout(() => {
           document.getElementById("accessCode").style.borderColor = "";
         }, 1000);
+      }
+    }
+
+    // Function to open course modal
+    function openCourseModal(course) {
+      currentSelectedCourse = course;
+      document.getElementById('modalTitle').textContent = course.title;
+      document.getElementById('modalBadge').textContent = course.category ? course.category.toUpperCase() : 'MODUL';
+      document.getElementById('modalImage').src = `images/${course.image}`;
+      
+      // Set continue button action
+      const continueButton = document.getElementById('continueButton');
+      continueButton.onclick = function() {
+        if (course.link && course.link !== '#') {
+          window.open(course.link, '_blank');
+        }
+        closeModal();
+      };
+      
+      // Show modal
+      document.getElementById('courseModal').style.display = 'block';
+    }
+
+    // Function to close modal
+    function closeModal() {
+      document.getElementById('courseModal').style.display = 'none';
+      currentSelectedCourse = null;
+    }
+
+    // Close modal when clicking outside of it
+    window.onclick = function(event) {
+      const modal = document.getElementById('courseModal');
+      if (event.target === modal) {
+        closeModal();
       }
     }
 
@@ -1477,7 +1653,7 @@ data.miror.forEach(item => {
           category: "miror"
         },
         { 
-          title: "75K (3 BULAN)", 
+          title: "75K (3 BULAN)",
           image: "CSV.png", 
           link: "https://lynk.id/ebcdde/qOXd90r",
           category: "miror"
@@ -1518,73 +1694,78 @@ data.miror.forEach(item => {
     allCourses = data.all;
 
     function showCategory(category) {
-      const sectionTitle = document.getElementById('section-title');
-      const coursesContainer = document.getElementById('courses');
-      
-      const titleMap = {
-        all: 'SEMUA MODUL AKADEMI CRYPTO',
-        trading: 'CRYPTO TRADING',
-        investing: 'CRYPTO INVESTING',
-        blockchain: 'BLOKCHAIN TECHNOLOGY',
-        sekolah: 'KULIAH EKONOMI',
-        liveclass: 'LIVECLASS',
-        margincall: 'MARGIN CALL (PRIVATE)',
-        ebook: 'EBOOK AKADEMI CRYPTO',
-        thenoise: 'THE NOISE TIMOTHY RONALD',
-        soon: 'COMING SOON',
-        thevoice: 'THE VOICE',
-        research: 'PDF RESEARCH',
-        miror: 'MIROR AC TERMURAH (LIFETIME)'
-      };
+  const sectionTitle = document.getElementById('section-title');
+  const coursesContainer = document.getElementById('courses');
+  
+  // Set section title based on category
+  const titleMap = {
+    all: 'SEMUA MODUL AKADEMI CRYPTO',
+    trading: 'CRYPTO TRADING',
+    investing: 'CRYPTO INVESTING',
+    blockchain: 'BLOKCHAIN TECHNOLOGY',
+    sekolah: 'KULIAH EKONOMI',
+    liveclass: 'LIVECLASS',
+    margincall: 'MARGIN CALL (PRIVATE)',
+    ebook: 'EBOOK AKADEMI CRYPTO',
+    thenoise: 'THE NOISE TIMOTHY RONALD',
+    soon: 'COMING SOON',
+    thevoice: 'THE VOICE',
+    research: 'PDF RESEARCH',
+    miror: 'MIROR AC TERMURAH (LIFETIME)'
+  };
 
-      sectionTitle.textContent = titleMap[category] || category.toUpperCase();
-      coursesContainer.innerHTML = '';
+  sectionTitle.textContent = titleMap[category] || category.toUpperCase();
+  coursesContainer.innerHTML = '';
 
-      const coursesToShow = category === 'all' ? allCourses : data[category];
-      
-      if (coursesToShow.length === 0) {
-        coursesContainer.innerHTML = `
-          <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
-            <i class="fas fa-search" style="font-size: 3em; opacity: 0.5; margin-bottom: 20px;"></i>
-            <h3>Tidak ada modul yang ditemukan</h3>
-            <p>Coba kata kunci lain atau kategori berbeda</p>
-          </div>
-        `;
-        return;
-      }
+  // Set courses to show based on category
+  const coursesToShow = category === 'all' ? allCourses : data[category];
+  
+  // Display no results if no courses match
+  if (coursesToShow.length === 0) {
+    coursesContainer.innerHTML = `
+      <div style="grid-column: 1/-1; text-align: center; padding: 40px;">
+        <i class="fas fa-search" style="font-size: 3em; opacity: 0.5; margin-bottom: 20px;"></i>
+        <h3>Tidak ada modul yang ditemukan</h3>
+        <p>Coba kata kunci lain atau kategori berbeda</p>
+      </div>
+    `;
+    return;
+  }
 
-      coursesToShow.forEach(item => {
-        const badgeText = titleMap[item.category] || item.category.toUpperCase();
-        coursesContainer.innerHTML += `
-          <div class='course' onclick="window.open('${item.link || '#'}', '_blank')">
-            <div class='badge'>${badgeText}</div>
-            <img src='images/${item.image}' alt='${item.title}' />
-            <div class='overlay'>
-              <p>${badgeText}</p>
-              <h3>${item.title}</h3>
-            </div>
-          </div>
-        `;
-      });
+  // Display courses for selected category
+  coursesToShow.forEach(item => {
+    const badgeText = titleMap[item.category] || item.category.toUpperCase();
+    coursesContainer.innerHTML += `
+      <div class='course' onclick="openCourseModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
+        <div class='badge'>${badgeText}</div>
+        <img src='images/${item.image}' alt='${item.title}' />
+        <div class='overlay'>
+          <p>${badgeText}</p>
+          <h3>${item.title}</h3>
+        </div>
+      </div>
+    `;
+  });
 
-      // Update active button
-      document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
-      const activeBtn = document.querySelector(`.menu-btn[onclick="showCategory('${category}')"]`);
-      if (activeBtn) activeBtn.classList.add('active');
-      
-      // Scroll menu to show active button
-      if (activeBtn) {
-        const menuScroll = document.getElementById('menuScroll');
-        const btnLeft = activeBtn.offsetLeft;
-        const btnWidth = activeBtn.offsetWidth;
-        const menuWidth = menuScroll.offsetWidth;
-        
-        menuScroll.scrollTo({
-          left: btnLeft - (menuWidth / 2) + (btnWidth / 2),
-          behavior: 'smooth'
-        });
-      }
-    }
+  // Update active class on the menu buttons
+  document.querySelectorAll('.menu-btn').forEach(btn => btn.classList.remove('active'));
+  const activeBtn = document.querySelector(`.menu-btn[onclick="showCategory('${category}')"]`);
+  if (activeBtn) activeBtn.classList.add('active');
+  
+  // Scroll menu to center the active button
+  if (activeBtn) {
+    const menuScroll = document.getElementById('menuScroll');
+    const btnLeft = activeBtn.offsetLeft;
+    const btnWidth = activeBtn.offsetWidth;
+    const menuWidth = menuScroll.offsetWidth;
+
+    menuScroll.scrollTo({
+      left: btnLeft - (menuWidth / 2) + (btnWidth / 2),
+      behavior: 'smooth'
+    });
+  }
+}
+
 
     function searchCourses() {
       const searchTerm = document.getElementById('searchInput').value.toLowerCase();
@@ -1596,17 +1777,16 @@ data.miror.forEach(item => {
       }
       
       const filteredCourses = allCourses
-  .filter(course => {
-    const titleMatch = course.title.toLowerCase().includes(searchTerm);
-    const categoryMatch = course.category && course.category.toLowerCase().includes(searchTerm);
-    return titleMatch || categoryMatch;
-  })
-  .sort((a, b) => {
-    const aIndex = a.title.toLowerCase().indexOf(searchTerm);
-    const bIndex = b.title.toLowerCase().indexOf(searchTerm);
-    return aIndex - bIndex;
-  });
-
+        .filter(course => {
+          const titleMatch = course.title.toLowerCase().includes(searchTerm);
+          const categoryMatch = course.category && course.category.toLowerCase().includes(searchTerm);
+          return titleMatch || categoryMatch;
+        })
+        .sort((a, b) => {
+          const aIndex = a.title.toLowerCase().indexOf(searchTerm);
+          const bIndex = b.title.toLowerCase().indexOf(searchTerm);
+          return aIndex - bIndex;
+        });
       
       coursesContainer.innerHTML = '';
       document.getElementById('section-title').textContent = `Hasil Pencarian: "${searchTerm}"`;
@@ -1625,7 +1805,7 @@ data.miror.forEach(item => {
       filteredCourses.forEach(item => {
         const badgeText = item.category ? item.category.toUpperCase() : 'MODUL';
         coursesContainer.innerHTML += `
-          <div class='course' onclick="window.open('${item.link || '#'}', '_blank')">
+          <div class='course' onclick="openCourseModal(${JSON.stringify(item).replace(/"/g, '&quot;')})">
             <div class='badge'>${badgeText}</div>
             <img src='images/${item.image}' alt='${item.title}' />
             <div class='overlay'>
